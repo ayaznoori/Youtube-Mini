@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script
+    src=" https://kit.fontawesome.com/24c494a6b6.js"
+    crossorigin="anonymous"></script>
+</head>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+    *{
+        font-family: 'Roboto', sans-serif;
+    }
+    body{
+        margin: 0;
+     
+    }
+    #nav-bar{
+        width: 100%;
+        margin: 0;
+        position: fixed;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1;
+        background-color: white;
+    }
+    #nav-bar>div{
+      
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+     
+   
+    }
+    #nav-bar>div:last-child>div{
+      align-self: center;
+      display: flex;
+      flex-direction: row;
+      padding-left: 20px;
+      padding-right: 10px;
+      
+   }
+   #searchitem{
+       width: 440px;
+       height: 25px;
+   }
+  #search{
+ 
+    height: 31px;
+    width: 50px;
+    background-color: white;
+    border: 1px solid black;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Search_Icon.svg/2048px-Search_Icon.svg.png");
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-position: center;
+  }
+  #searchbar{
+      align-self: center;
+      display: flex;
+      flex-direction: row;
+  }
+  #form{
+     display: flex;
+      flex-direction: row;
+      align-items: center;
+  }
+  #sidemenu{
+      width: 15%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    padding: 20PX;
+    height: 100%;
+  }
+  #container{
+    margin-top: 50px;
+      width: 85%;
+      background-color: #F9F9F9;
+        padding: 20px;
+       display: grid;
+       grid-template-columns: repeat(4,1fr);
+       grid-gap: 15px;
+         
+  }
+  #container_div{
+      display: flex;
+ 
+      
+  }
+</style>
+<body>
+ 
+    <div id="nav-bar">
+        <div><img src="img/bar.png" width="70px" height="20px" alt="" onclick="sidedis()"> <img src="img/logo.png" width="120px" alt="">  </div>
+       <div id="searchbar"><form id="form" onsubmit="searchresult()"><input type="text" id="searchitem" placeholder="Search"><input type="submit" value=""  id="search"></form> </div>
+    <div>
+        <div> <img src="img/add.png" width="25px" alt=""></div>
+        <div><img src="img/9dot.webp" width="25px" alt=""></div>
+         <div><img src="img/bell.png" width="25px" alt=""></div>
+         <div><img src="img/acc.png" width="30px" alt=""></div>
+    </div>
+    </div>
+    <div id="container_div">
+    <div id="sidemenu"><h4><i class="fa-solid fa-house"></i> &emsp; Home</h4> 
+    <h4><i class="fa-solid fa-compass"></i> &emsp; Explore</h4>
+    <h4><i class="fa-solid fa-fire-flame-curved"></i> &emsp; Shorts</h4>
+    <h4><i class="fa-brands fa-gratipay"></i></i> &emsp; Subscription</h4>
+    <h4></h4></div>
+    <div id="container"> </div>
+    </div>
+</body>
+</html>
+<script>      
+
+// default
+let c=1;
+function sidedis(){
+    c++;
+  event.preventDefault();
+  let s = document.getElementById("sidemenu");
+  let cont = document.getElementById("container");
+ if(c%2==0)
+ {
+    s.style.width="5%";
+ cont.style.width="95%";
+ }
+ else{
+    s.style.width="15%";
+ cont.style.width="85%";
+ }
+
+} 
+ 
+
+
+        const searchresult=async()=>{
+                event.preventDefault();
+                let s = document.getElementById("searchitem").value;               
+                const url= await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=30&q=${s}&key=AIzaSyBM7xfZ6ekcrWhf79KIju8kGADdjeHRSp4`);
+                const data= await url.json();
+              
+                appendvid(data.items)
+ 
+        }
+        const appendvid= (videolist)=>{
+ 
+            let video= document.getElementById("container");
+                video.innerHTML=null;
+            videolist.forEach(({id:{videoId}, snippet:{title}}) => {
+
+                let viddiv=document.createElement("div");
+               
+                let iframe=document.createElement("iframe")
+                iframe.src=`https://www.youtube.com/embed/${videoId}`
+                iframe.style.width="100%" ;
+                iframe.allow="fullscreen";
+                iframe.style.border="0px"
+                let name=document.createElement("div");
+                name.innerText=title;          
+               
+                viddiv.append(iframe,name);
+                video.append(viddiv)
+            });
+        }
+        async function auto(){
+ 
+                 let s = document.getElementById("searchitem").value;               
+                const url= await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=IN&maxResults=30&key=AIzaSyBM7xfZ6ekcrWhf79KIju8kGADdjeHRSp4`);
+                const data= await url.json();
+                appendvid(data.items)
+          
+        }
+       auto();
+    
+
+
+       //hover
+
+     
+        //<iframe width="560" height="315" src="https://www.youtube.com/embed/BzE1mX4Px0I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</script>
