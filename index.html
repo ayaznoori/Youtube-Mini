@@ -143,7 +143,7 @@ function sidedis(){
         const searchresult=async()=>{
                 event.preventDefault();
                 let s = document.getElementById("searchitem").value;               
-                const url= await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=30&q=${s}&key=AIzaSyBM7xfZ6ekcrWhf79KIju8kGADdjeHRSp4`);
+                const url= await fetch(`https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=20&q=${s}&key=AIzaSyBM7xfZ6ekcrWhf79KIju8kGADdjeHRSp4`);
                 const data= await url.json();
               
                 appendvid(data.items)
@@ -172,7 +172,7 @@ function sidedis(){
         async function auto(){
  
                  let s = document.getElementById("searchitem").value;               
-                const url= await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=IN&maxResults=30&key=AIzaSyBM7xfZ6ekcrWhf79KIju8kGADdjeHRSp4`);
+                const url= await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=IN&maxResults=20&key=AIzaSyBM7xfZ6ekcrWhf79KIju8kGADdjeHRSp4`);
                 const data= await url.json();
                 appendvid(data.items)
           
